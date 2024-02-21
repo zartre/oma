@@ -1,9 +1,14 @@
 :root {
+	--border-radius: 12px;
 	--color-bg: #f6f6f6;
 	--color-surface: #fff;
 	--color-surface-interactive: #eaeaea;
 	--color-text-primary: #000;
 	--color-text-secondary: #757575;
+}
+
+* {
+	box-sizing: border-box;
 }
 
 html {
@@ -21,6 +26,16 @@ html {
 		'Open Sans',
 		'Helvetica Neue',
 		sans-serif;
+	font-size: 17px;
+}
+
+h1 {
+	line-height: 1em;
+}
+
+a {
+	color: var(--color-text-primary);
+	text-decoration: none;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -31,4 +46,52 @@ html {
 		--color-text-primary: #fff;
 		--color-text-secondary: #888888;
 	}
+
+	input {
+		color-scheme: dark;
+	}
+}
+
+/* FORM */
+
+form label {
+	display: inline-block;
+	margin-bottom: 0.5em;
+}
+
+input[type='date'],
+input[type='text'] {
+	background-color: var(--color-surface);
+	border: none;
+	border-radius: var(--border-radius);
+	color: var(--color-text-primary);
+	display: inline-block;
+	margin: 0 0 1em;
+	padding: 1em 0.9em;
+}
+
+input[type='date'] {
+	line-height: 0.9em;
+}
+
+/* CUSTOM COMPONENTS */
+
+a.button,
+button.button {
+	background-color: var(--color-surface-interactive);
+	border: none;
+	border-radius: var(--border-radius);
+	color: var(--color-text-primary);
+	display: inline-block;
+	margin: 0;
+	padding: 0.8em 1.2em;
+}
+
+button.text-button {
+	background-color: transparent;
+	border: none;
+	color: var(--color-text-primary);
+	display: inline-block;
+	margin: 0;
+	padding: 0;
 }
