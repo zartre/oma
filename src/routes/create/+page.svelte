@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { TrackedEvent } from '$lib/models/trackedEvent';
+	import { persistentStore } from '$lib/persistence/persistence';
+
 	let eventTitle = '';
 	let eventDate = '';
 
@@ -7,7 +10,9 @@
 	};
 
 	const save = () => {
-		console.log(`New event ${eventTitle} ${eventDate}`);
+		const d = new Date(eventDate);
+		const ev = new TrackedEvent(eventTitle, d);
+		persistentStore.createEvent(ev);
 		goBack();
 	};
 </script>
