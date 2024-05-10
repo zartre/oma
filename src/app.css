@@ -74,6 +74,12 @@ input[type='date'] {
 	line-height: 0.9em;
 }
 
+/* LAYOUT */
+
+header {
+	padding: 30px 1em 0;
+}
+
 /* CUSTOM COMPONENTS */
 
 a.button,

@@ -1,8 +1,14 @@
-<script>
-	import CounterItem from '$lib/CounterItem.svelte';
+<script lang="ts">
+	let eventTitle = '';
+	let eventDate = '';
 
 	const goBack = () => {
 		window.history.back();
+	};
+
+	const save = () => {
+		console.log(`New event ${eventTitle} ${eventDate}`);
+		goBack();
 	};
 </script>
 
@@ -10,12 +16,27 @@
 	<button class="text-button" on:click={goBack}>Back</button>
 	<h1>New</h1>
 </header>
+
 <main>
-	<form action="/">
-		<label for="event-name">Name</label>
-		<input type="text" name="event-name" placeholder="Item name here" />
+	<form on:submit|preventDefault={save}>
+		<label for="title">Title</label>
+		<input
+			type="text"
+			id="title"
+			autocomplete="off"
+			placeholder="What to call this item?"
+			bind:value={eventTitle}
+		/>
+
 		<label for="event-date">Last date</label>
-		<input type="date" name="event-date" placeholder="Pick the last date" />
+		<input
+			type="date"
+			id="date"
+			autocomplete="off"
+			placeholder="Pick the last date"
+			bind:value={eventDate}
+		/>
+
 		<div class="form-buttons">
 			<button class="button">Add</button>
 		</div>
@@ -23,9 +44,6 @@
 </main>
 
 <style>
-	header {
-		padding: 30px 1em 0;
-	}
 	main {
 		padding: 0 1em;
 	}

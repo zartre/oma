@@ -14,9 +14,6 @@
 </footer>
 
 <style>
-	header {
-		padding: 30px 1rem 0;
-	}
 	main {
 		padding: 0 1rem;
 	}
