@@ -1,20 +1,20 @@
 <script lang="ts">
-	import { TrackedEvent } from '$lib/models/trackedEvent';
-	import { persistentStore } from '$lib/persistence/persistence';
+	import { TrackedEvent } from '$lib/models/trackedEvent'
+	import { persistentStore } from '$lib/persistence/persistence'
 
-	let eventTitle = '';
-	let eventDate = '';
+	let eventTitle = ''
+	let eventDate = ''
 
 	const goBack = () => {
-		window.history.back();
-	};
+		window.history.back()
+	}
 
 	const save = () => {
-		const d = new Date(eventDate);
-		const ev = new TrackedEvent(eventTitle, d);
-		persistentStore.createEvent(ev);
-		goBack();
-	};
+		const d = new Date(eventDate)
+		const ev = new TrackedEvent(eventTitle, d)
+		persistentStore.createEvent(ev)
+		goBack()
+	}
 </script>
 
 <header>

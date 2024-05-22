@@ -1,5 +1,5 @@
 <script>
-	import CounterItem from '$lib/CounterItem.svelte';
+	import CounterItem from '$lib/CounterItem.svelte'
 </script>
 
 <header>

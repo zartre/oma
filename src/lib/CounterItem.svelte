@@ -1,9 +1,9 @@
 <script lang="ts">
-	export let title: string;
-	export let sinceDate: Date;
+	export let title: string
+	export let sinceDate: Date
 
 	// Does this need to be reactive?
-	$: daysSince = Math.floor((Date.now() - sinceDate.getTime()) / 86_400_000);
+	$: daysSince = Math.floor((Date.now() - sinceDate.getTime()) / 86_400_000)
 </script>
 
 <div class="counter-item">

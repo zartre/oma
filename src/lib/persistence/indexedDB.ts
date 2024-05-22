@@ -13,7 +13,7 @@ export class IDB implements Persistence {
 	private constructor() {
 		// Check for window object so that SvelteKit can render pages on server side.
 		if (typeof window == 'undefined') {
-			console.warn("indexedDB.ts: window is undefined. This should happen only in SSR.")
+			console.warn('indexedDB.ts: window is undefined. This should happen only in SSR.')
 			return
 		}
 

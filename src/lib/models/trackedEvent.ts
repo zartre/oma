@@ -3,11 +3,11 @@
  * a user tracks its last concerned date.
  */
 export class TrackedEvent {
-	title: string;
-	date: Date;
+	title: string
+	date: Date
 
 	constructor(title: string, date: Date) {
-		this.title = title;
-		this.date = date;
+		this.title = title
+		this.date = date
 	}
 }
