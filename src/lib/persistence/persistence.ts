@@ -5,7 +5,7 @@ import { IDB } from './indexedDB'
  * Persistence is an interface for persistent storage implementations.
  */
 export interface Persistence {
-	createEvent(e: TrackedEvent): void
+	createEvent(e: TrackedEvent): Promise<void>;
 }
 
 export const persistentStore: Persistence = IDB.getInstance()

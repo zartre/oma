@@ -9,12 +9,16 @@
 		window.history.back()
 	}
 
-	const save = () => {
-		const d = new Date(eventDate)
-		const ev = new TrackedEvent(eventTitle, d)
-		persistentStore.createEvent(ev)
-		goBack()
-	}
+	const save = async () => {
+		const d = new Date(eventDate);
+		const ev = new TrackedEvent(eventTitle, d);
+		try {
+			await persistentStore.createEvent(ev);
+			goBack();
+		} catch (err) {
+			alert('Cannot save')
+		}
+	};
 </script>
 
 <header>

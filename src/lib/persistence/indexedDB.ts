@@ -37,30 +37,19 @@ export class IDB implements Persistence {
 		return this.instance
 	}
 
-	createEvent(e: TrackedEvent): void {
-		console.log(PUBLIC_DB_NAME)
-		console.log(`New event ${e.title} ${e.date}`)
-
+	async createEvent(e: TrackedEvent): Promise<void> {
 		const txn = this.db.transaction(this.TRACKED_EVENT_STORE_NAME, 'readwrite')
 
-		txn.oncomplete = (event) => {
-			console.info('Transaction completed.')
-		}
+		return new Promise((resolve, reject) => {
+			txn.oncomplete = () => {
+				resolve()
+			}
 
-		txn.onerror = (event) => {
-			console.error('Transaction failed.')
-			// TODO: Handle error
-		}
+			txn.onerror = (event) => {
+				reject(event)
+			}
 
-		const req = txn.objectStore(this.TRACKED_EVENT_STORE_NAME).add(e)
-
-		req.onsuccess = (event) => {
-			console.info('Event added to DB.')
-		}
-
-		req.onerror = (event) => {
-			console.error('Event not added to DB.')
-			// TODO: Handle error
-		}
+			txn.objectStore(this.TRACKED_EVENT_STORE_NAME).add(e)
+		})
 	}
 }
