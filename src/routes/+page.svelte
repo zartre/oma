@@ -1,5 +1,10 @@
 <script>
-	import CounterItem from '$lib/CounterItem.svelte'
+	import AddEventModal from '$lib/AddEventModal.svelte'
+	import CounterItem from '$lib/CounterItem.svelte';
+
+	let showAddModal = false;
+
+	const toggleAddModal = shouldShow => showAddModal = shouldShow;
 </script>
 
 <header>
@@ -8,9 +13,12 @@
 <main>
 	<CounterItem title="Visit grandma" sinceDate={new Date(2024, 0, 1)} />
 	<CounterItem title="See Oum" sinceDate={new Date(2024, 0, 14)} />
+	{#if showAddModal}
+		<AddEventModal on:success={() => toggleAddModal(false)} />
+	{/if}
 </main>
 <footer>
-	<a class="button" href="/create">Add</a>
+	<button class="button" on:click={() => toggleAddModal(true)}>Add</button>
 </footer>
 
 <style>
