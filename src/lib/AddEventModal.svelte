@@ -17,7 +17,7 @@
 			await persistentStore.createEvent(ev);
 			dispatchSuccess();
 		} catch (err) {
-			alert('Cannot save')
+			alert(`Cannot save: ${err}`)
 		}
 	};
 </script>
@@ -36,6 +36,7 @@
                 id="title"
                 autocomplete="off"
                 placeholder="What to call this item?"
+                required
                 bind:value={eventTitle}
             />
 
@@ -45,6 +46,7 @@
                 id="date"
                 autocomplete="off"
                 placeholder="Pick the last date"
+                required
                 bind:value={eventDate}
             />
 
