@@ -29,6 +29,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@lukeed/uuid": "^2.0.1",
 		"normalize.css": "^8.0.1"
 	}
 }
