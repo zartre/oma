@@ -1,23 +1,20 @@
 <script lang="ts">
 	import AddEventModal from '$lib/AddEventModal.svelte'
 	import CounterItem from '$lib/CounterItem.svelte'
-	import type { TrackedEvent } from '$lib/models/trackedEvent'
 	import { persistentStore } from '$lib/persistence/persistence'
 	import { onMount } from 'svelte'
+	import { trackedEvents } from '$lib/stores/trackedEventStore'
 
 	let showAddModal = false
-	let trackedEvents: TrackedEvent[] = []
 
 	const loadEvents = () =>
 		persistentStore.getAllEvents().then((events) => {
-			// TODO: Use a store to ease automatic view update
-			trackedEvents = events
+			trackedEvents.set(events)
 		})
 
 	const toggleAddModal = (shouldShow: boolean) => (showAddModal = shouldShow)
 
 	const onAddEventSuccess = () => {
-		loadEvents() // TODO: Remove this after changing to a store
 		toggleAddModal(false)
 	}
 
@@ -30,8 +27,8 @@
 	<h1>Days since</h1>
 </header>
 <main>
-	{#each trackedEvents as ev}
-		<CounterItem title={ev.title} sinceDate={ev.date} />
+	{#each $trackedEvents as ev}
+		<CounterItem title={ev.title + ' ' + ev.id} sinceDate={ev.date} />
 	{/each}
 	{#if showAddModal}
 		<AddEventModal on:success={onAddEventSuccess} />
