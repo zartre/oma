@@ -3,6 +3,7 @@
  * a user tracks its last concerned date.
  */
 export class TrackedEvent {
+	id: number = 0
 	title: string
 	date: Date
 

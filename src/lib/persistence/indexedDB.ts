@@ -1,5 +1,5 @@
 import { PUBLIC_DB_NAME } from '$env/static/public'
-import type { TrackedEvent } from '$lib/models/trackedEvent'
+import { TrackedEvent } from '$lib/models/trackedEvent'
 import type { Persistence } from './persistence'
 
 /**
@@ -70,12 +70,22 @@ export class IDB implements Persistence {
 		if (!this.db) await this.initDB()
 
 		const txn = this.db.transaction(this.TRACKED_EVENT_STORE_NAME, 'readonly')
-		const req = txn.objectStore(this.TRACKED_EVENT_STORE_NAME).getAll()
+		const req = txn.objectStore(this.TRACKED_EVENT_STORE_NAME).openCursor()
 		return new Promise((resolve, reject) => {
-			txn.oncomplete = () => {
-				resolve(<TrackedEvent[]>req.result)
+			req.onsuccess = (event) => {
+				const cursor = (<IDBRequest>event.target).result
+				const results: TrackedEvent[] = []
+				if (cursor) {
+					const k = cursor.primaryKey
+					const v = <TrackedEvent>cursor.value
+					const e = new TrackedEvent(v.title, v.date)
+					e.id = k
+					results.push(e)
+					cursor.continue()
+				}
+				resolve(results)
 			}
-			txn.onerror = (ev) => {
+			req.onerror = (ev) => {
 				console.error('Error in getAllEvents:', ev.target)
 				reject(ev)
 			}
