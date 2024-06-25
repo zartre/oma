@@ -6,6 +6,7 @@ import { IDB } from './indexedDB'
  */
 export interface Persistence {
 	createEvent(e: TrackedEvent): Promise<void>;
+	getAllEvents(): Promise<TrackedEvent[]>;
 }
 
 export const persistentStore: Persistence = IDB.getInstance()

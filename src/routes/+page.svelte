@@ -1,18 +1,30 @@
-<script>
+<script lang="ts">
 	import AddEventModal from '$lib/AddEventModal.svelte'
-	import CounterItem from '$lib/CounterItem.svelte';
+	import CounterItem from '$lib/CounterItem.svelte'
+	import type { TrackedEvent } from '$lib/models/trackedEvent'
+	import { persistentStore } from '$lib/persistence/persistence'
+	import { onMount } from 'svelte'
 
-	let showAddModal = false;
+	let showAddModal = false
+	let trackedEvents: TrackedEvent[] = []
 
-	const toggleAddModal = shouldShow => showAddModal = shouldShow;
+	const toggleAddModal = (shouldShow: boolean) => (showAddModal = shouldShow)
+
+	onMount(() => {
+		persistentStore.getAllEvents().then((events) => {
+			// TODO: Use store to ease automatic view update
+			trackedEvents = events
+		})
+	})
 </script>
 
 <header>
 	<h1>Days since</h1>
 </header>
 <main>
-	<CounterItem title="Visit grandma" sinceDate={new Date(2024, 0, 1)} />
-	<CounterItem title="See Oum" sinceDate={new Date(2024, 0, 14)} />
+	{#each trackedEvents as ev}
+		<CounterItem title={ev.title} sinceDate={ev.date} />
+	{/each}
 	{#if showAddModal}
 		<AddEventModal on:success={() => toggleAddModal(false)} />
 	{/if}

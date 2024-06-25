@@ -65,4 +65,20 @@ export class IDB implements Persistence {
 			txn.objectStore(this.TRACKED_EVENT_STORE_NAME).add(e)
 		})
 	}
+
+	async getAllEvents(): Promise<TrackedEvent[]> {
+		if (!this.db) await this.initDB()
+
+		const txn = this.db.transaction(this.TRACKED_EVENT_STORE_NAME, 'readonly')
+		const req = txn.objectStore(this.TRACKED_EVENT_STORE_NAME).getAll()
+		return new Promise((resolve, reject) => {
+			txn.oncomplete = () => {
+				resolve(<TrackedEvent[]>req.result)
+			}
+			txn.onerror = (ev) => {
+				console.error('Error in getAllEvents:', ev.target)
+				reject(ev)
+			}
+		})
+	}
 }
