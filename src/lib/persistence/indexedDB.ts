@@ -1,5 +1,5 @@
 import { PUBLIC_DB_NAME } from '$env/static/public'
-import { TrackedEvent } from '$lib/models/trackedEvent'
+import type { TrackedEvent } from '$lib/models/trackedEvent'
 import type { Persistence } from './persistence'
 
 /**
@@ -43,7 +43,7 @@ export class IDB implements Persistence {
 			req.onupgradeneeded = (event) => {
 				const db = (<IDBOpenDBRequest>event.target).result
 
-				db.createObjectStore(this.TRACKED_EVENT_STORE_NAME, { autoIncrement: true })
+				db.createObjectStore(this.TRACKED_EVENT_STORE_NAME, { autoIncrement: false, keyPath: 'id' })
 			}
 		})
 	}
@@ -70,22 +70,12 @@ export class IDB implements Persistence {
 		if (!this.db) await this.initDB()
 
 		const txn = this.db.transaction(this.TRACKED_EVENT_STORE_NAME, 'readonly')
-		const req = txn.objectStore(this.TRACKED_EVENT_STORE_NAME).openCursor()
+		const req = txn.objectStore(this.TRACKED_EVENT_STORE_NAME).getAll()
 		return new Promise((resolve, reject) => {
-			req.onsuccess = (event) => {
-				const cursor = (<IDBRequest>event.target).result
-				const results: TrackedEvent[] = []
-				if (cursor) {
-					const k = cursor.primaryKey
-					const v = <TrackedEvent>cursor.value
-					const e = new TrackedEvent(v.title, v.date)
-					e.id = k
-					results.push(e)
-					cursor.continue()
-				}
-				resolve(results)
+			txn.oncomplete = () => {
+				resolve(<TrackedEvent[]>req.result)
 			}
-			req.onerror = (ev) => {
+			txn.onerror = (ev) => {
 				console.error('Error in getAllEvents:', ev.target)
 				reject(ev)
 			}
