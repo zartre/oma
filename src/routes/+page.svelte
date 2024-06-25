@@ -8,13 +8,21 @@
 	let showAddModal = false
 	let trackedEvents: TrackedEvent[] = []
 
-	const toggleAddModal = (shouldShow: boolean) => (showAddModal = shouldShow)
-
-	onMount(() => {
+	const loadEvents = () =>
 		persistentStore.getAllEvents().then((events) => {
-			// TODO: Use store to ease automatic view update
+			// TODO: Use a store to ease automatic view update
 			trackedEvents = events
 		})
+
+	const toggleAddModal = (shouldShow: boolean) => (showAddModal = shouldShow)
+
+	const onAddEventSuccess = () => {
+		loadEvents() // TODO: Remove this after changing to a store
+		toggleAddModal(false)
+	}
+
+	onMount(() => {
+		loadEvents()
 	})
 </script>
 
@@ -26,7 +34,7 @@
 		<CounterItem title={ev.title} sinceDate={ev.date} />
 	{/each}
 	{#if showAddModal}
-		<AddEventModal on:success={() => toggleAddModal(false)} />
+		<AddEventModal on:success={onAddEventSuccess} />
 	{/if}
 </main>
 <footer>
