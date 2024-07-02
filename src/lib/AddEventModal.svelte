@@ -8,7 +8,7 @@
 
 	const dispatch = createEventDispatcher()
 
-	const dispatchSuccess = () => dispatch('success', true)
+	const dispatchClose = () => dispatch('close', true)
 
 	const save = async () => {
 		const d = new Date(eventDate)
@@ -16,7 +16,7 @@
 		// TODO: Also add to Store
 		try {
 			await persistentStore.createEvent(ev)
-			dispatchSuccess()
+			dispatchClose()
 		} catch (err) {
 			alert(`Cannot save: ${err}`)
 		}
@@ -25,7 +25,7 @@
 
 <div class="modal">
 	<header>
-		<button class="text-button" on:click={dispatchSuccess}>Cancel</button>
+		<button class="text-button" on:click={dispatchClose}>Cancel</button>
 		<h1>New</h1>
 	</header>
 

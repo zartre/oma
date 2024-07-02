@@ -14,7 +14,7 @@
 
 	const toggleAddModal = (shouldShow: boolean) => (showAddModal = shouldShow)
 
-	const onAddEventSuccess = () => {
+	const onAddEventClose = () => {
 		toggleAddModal(false)
 	}
 
@@ -31,7 +31,7 @@
 		<CounterItem title={ev.title + ' ' + ev.id} sinceDate={ev.date} />
 	{/each}
 	{#if showAddModal}
-		<AddEventModal on:success={onAddEventSuccess} />
+		<AddEventModal on:close={onAddEventClose} />
 	{/if}
 </main>
 <footer>
