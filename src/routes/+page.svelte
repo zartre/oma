@@ -3,7 +3,7 @@
 	import CounterItem from '$lib/CounterItem.svelte'
 	import { persistentStore } from '$lib/persistence/persistence'
 	import { onMount } from 'svelte'
-	import { trackedEvents } from '$lib/stores/trackedEventStore'
+	import { trackedEvents, sortedTrackedEvents } from '$lib/stores/trackedEventStore'
 
 	let showAddModal = false
 
@@ -27,7 +27,7 @@
 	<h1>Days since</h1>
 </header>
 <main>
-	{#each $trackedEvents as ev}
+	{#each $sortedTrackedEvents as ev}
 		<CounterItem title={ev.title + ' ' + ev.id} sinceDate={ev.date} />
 	{/each}
 	{#if showAddModal}
