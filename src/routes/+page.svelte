@@ -9,7 +9,7 @@
 
 	const loadEvents = () =>
 		persistentStore.getAllEvents().then((events) => {
-			trackedEvents.set(events)
+			$trackedEvents = events
 		})
 
 	const toggleAddModal = (shouldShow: boolean) => (showAddModal = shouldShow)
