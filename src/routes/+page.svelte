@@ -28,7 +28,7 @@
 </header>
 <main>
 	{#each $sortedTrackedEvents as ev}
-		<CounterItem title={ev.title + ' ' + ev.id} sinceDate={ev.date} />
+		<CounterItem title={ev.title} sinceDate={ev.date} />
 	{/each}
 	{#if showAddModal}
 		<AddEventModal on:close={onAddEventClose} />
