@@ -1,36 +1,24 @@
 <script lang="ts">
-	import { TrackedEvent } from '$lib/models/trackedEvent'
-	import { persistentStore } from '$lib/persistence/persistence'
 	import { createEventDispatcher } from 'svelte'
-	import { trackedEvents } from './stores/trackedEventStore'
+	import { eventToEdit } from './stores/trackedEventStore'
 
-	let eventTitle = ''
-	let eventDate = ''
+	$: d = $eventToEdit.date
+	$: savedDate = `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d
+		.getDate()
+		.toString()
+		.padStart(2, '0')}`
 
 	const dispatch = createEventDispatcher()
 
 	const dispatchClose = () => dispatch('close', true)
 
-	const save = async () => {
-		const d = new Date(eventDate)
-		const ev = new TrackedEvent(eventTitle, d)
-		try {
-			await persistentStore.createEvent(ev)
-			trackedEvents.update((items) => {
-				items.push(ev)
-				return items
-			})
-			dispatchClose()
-		} catch (err) {
-			alert(`Cannot save: ${err}`)
-		}
-	}
+	const save = async () => {}
 </script>
 
 <div class="modal">
 	<header>
 		<button class="text-button" on:click={dispatchClose}>Cancel</button>
-		<h1>New</h1>
+		<h1>Edit</h1>
 	</header>
 
 	<main>
@@ -42,7 +30,7 @@
 				autocomplete="off"
 				placeholder="What to call this item?"
 				required
-				bind:value={eventTitle}
+				bind:value={$eventToEdit.title}
 			/>
 
 			<label for="event-date">Last date</label>
@@ -52,7 +40,7 @@
 				autocomplete="off"
 				placeholder="Pick the last date"
 				required
-				bind:value={eventDate}
+				bind:value={savedDate}
 			/>
 
 			<div class="form-buttons">

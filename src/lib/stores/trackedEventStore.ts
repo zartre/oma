@@ -6,3 +6,5 @@ export const trackedEvents = writable<TrackedEvent[]>([])
 export const sortedTrackedEvents = derived(trackedEvents, ($trackedEvents) =>
 	$trackedEvents.sort((a, b) => a.title.localeCompare(b.title))
 )
+
+export const eventToEdit = writable<TrackedEvent>()

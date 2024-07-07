@@ -1,13 +1,25 @@
 <script lang="ts">
-	export let title: string
-	export let sinceDate: Date
+	import { createEventDispatcher } from 'svelte'
+	import type { TrackedEvent } from './models/trackedEvent'
+
+	export let trackedEvent: TrackedEvent
 
 	// Does this need to be reactive?
-	$: daysSince = Math.floor((Date.now() - sinceDate.getTime()) / 86_400_000)
+	$: daysSince = Math.floor((Date.now() - trackedEvent.date.getTime()) / 86_400_000)
+
+	const dispatch = createEventDispatcher()
+
+	const handleClick = () => dispatch('click', trackedEvent)
 </script>
 
-<div class="counter-item">
-	<h4>{title}</h4>
+<div
+	class="counter-item"
+	on:click={handleClick}
+	on:keypress={handleClick}
+	role="button"
+	tabindex="0"
+>
+	<h4>{trackedEvent.title}</h4>
 	<p>{daysSince}</p>
 </div>
 

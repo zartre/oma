@@ -3,9 +3,12 @@
 	import CounterItem from '$lib/CounterItem.svelte'
 	import { persistentStore } from '$lib/persistence/persistence'
 	import { onMount } from 'svelte'
-	import { trackedEvents, sortedTrackedEvents } from '$lib/stores/trackedEventStore'
+	import { trackedEvents, sortedTrackedEvents, eventToEdit } from '$lib/stores/trackedEventStore'
+	import EditEventModal from '$lib/EditEventModal.svelte'
+	import type { TrackedEvent } from '$lib/models/trackedEvent'
 
 	let showAddModal = false
+	let showEditModal = false
 
 	const loadEvents = () =>
 		persistentStore.getAllEvents().then((events) => {
@@ -13,9 +16,17 @@
 		})
 
 	const toggleAddModal = (shouldShow: boolean) => (showAddModal = shouldShow)
+	const toggleEditModal = (shouldShow: boolean) => (showEditModal = shouldShow)
 
 	const onAddEventClose = () => {
 		toggleAddModal(false)
+	}
+	const onEditEventClose = () => {
+		toggleEditModal(false)
+	}
+	const onCounterItemClick = (ce: CustomEvent<TrackedEvent>) => {
+		$eventToEdit = ce.detail
+		toggleEditModal(true)
 	}
 
 	onMount(() => {
@@ -28,10 +39,13 @@
 </header>
 <main>
 	{#each $sortedTrackedEvents as ev}
-		<CounterItem title={ev.title} sinceDate={ev.date} />
+		<CounterItem trackedEvent={ev} on:click={onCounterItemClick} />
 	{/each}
 	{#if showAddModal}
 		<AddEventModal on:close={onAddEventClose} />
+	{/if}
+	{#if showEditModal}
+		<EditEventModal on:close={onEditEventClose} />
 	{/if}
 </main>
 <footer>
