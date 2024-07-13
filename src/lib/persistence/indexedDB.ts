@@ -83,6 +83,23 @@ export class IDB implements Persistence {
 		})
 	}
 
+	async deleteEvent(id: string): Promise<void> {
+		if (!this.db) await this.initDB()
+
+		const txn = this.db.transaction(this.TRACKED_EVENT_STORE_NAME, 'readwrite')
+		return new Promise((resolve, reject) => {
+			txn.oncomplete = () => {
+				resolve()
+			}
+
+			txn.onerror = (event) => {
+				reject(event)
+			}
+
+			txn.objectStore(this.TRACKED_EVENT_STORE_NAME).delete(id)
+		})
+	}
+
 	async getAllEvents(): Promise<TrackedEvent[]> {
 		if (!this.db) await this.initDB()
 

@@ -5,6 +5,9 @@
 	--color-surface-interactive: #eaeaea;
 	--color-text-primary: #000;
 	--color-text-secondary: #757575;
+	--color-accent-primary: #202020;
+	--color-danger: #e1364e;
+	--color-text-on-accent: #fff;
 }
 
 * {
@@ -50,6 +53,18 @@ a {
 	input {
 		color-scheme: dark;
 	}
+}
+
+/* COLOURS */
+
+.bg-primary {
+	background-color: var(--color-accent-primary) !important;
+	color: var(--color-text-on-accent) !important  ;
+}
+
+.bg-danger {
+	background-color: var(--color-danger) !important;
+	color: var(--color-text-on-accent) !important;
 }
 
 /* FORM */

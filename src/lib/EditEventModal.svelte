@@ -37,6 +37,15 @@
 			alert(`Cannot save: ${err}`)
 		}
 	}
+	const deleteEvent = async () => {
+		try {
+			await persistentStore.deleteEvent($eventToEdit.id)
+			trackedEvents.update((items) => items.filter((e) => e.id !== $eventToEdit.id))
+			dispatchClose()
+		} catch (err) {
+			alert(`Cannot delete: ${err}`)
+		}
+	}
 </script>
 
 <div class="modal">
@@ -69,7 +78,8 @@
 
 			<div class="form-buttons">
 				<button class="button" on:click={resetDate} type="button">Set to today</button>
-				<button class="button">Save</button>
+				<button class="button bg-danger" on:click={deleteEvent} type="button">Delete</button>
+				<button class="button bg-primary">Save</button>
 			</div>
 		</form>
 	</main>

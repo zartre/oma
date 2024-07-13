@@ -7,6 +7,7 @@ import { IDB } from './indexedDB'
 export interface Persistence {
 	createEvent(e: TrackedEvent): Promise<void>
 	updateEvent(e: TrackedEvent): Promise<void>
+	deleteEvent(id: string): Promise<void>
 	getAllEvents(): Promise<TrackedEvent[]>
 }
 
