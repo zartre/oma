@@ -1,18 +1,42 @@
 <script lang="ts">
+	import { TrackedEvent } from '$lib/models/trackedEvent'
+	import { persistentStore } from '$lib/persistence/persistence'
 	import { createEventDispatcher } from 'svelte'
-	import { eventToEdit } from './stores/trackedEventStore'
+	import { dateToSqlString } from './formatter'
+	import { eventToEdit, trackedEvents } from './stores/trackedEventStore'
 
-	$: d = $eventToEdit.date
-	$: savedDate = `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d
-		.getDate()
-		.toString()
-		.padStart(2, '0')}`
+	// Date input binding based on this example
+	// https://svelte.dev/repl/dc963bbead384b69aad17824149d6d27?version=3.25.1
+
+	let rawDateInput: string = dateToSqlString($eventToEdit.date)
+	/**
+	 * Update the date object when the input changes
+	 */
+	const forOutput = (x: string) => ($eventToEdit.date = new Date(x))
+
+	$: forOutput(rawDateInput)
 
 	const dispatch = createEventDispatcher()
 
 	const dispatchClose = () => dispatch('close', true)
 
-	const save = async () => {}
+	const resetDate = () => (rawDateInput = dateToSqlString(new Date()))
+	const save = async () => {
+		const ev = new TrackedEvent($eventToEdit.title, $eventToEdit.date, { id: $eventToEdit.id })
+		try {
+			await persistentStore.updateEvent(ev)
+			trackedEvents.update((items) => {
+				const idx = items.findIndex((e) => e.id === ev.id)
+				if (idx !== -1) {
+					items[idx] = ev
+				}
+				return items
+			})
+			dispatchClose()
+		} catch (err) {
+			alert(`Cannot save: ${err}`)
+		}
+	}
 </script>
 
 <div class="modal">
@@ -40,11 +64,12 @@
 				autocomplete="off"
 				placeholder="Pick the last date"
 				required
-				bind:value={savedDate}
+				bind:value={rawDateInput}
 			/>
 
 			<div class="form-buttons">
-				<button class="button">Add</button>
+				<button class="button" on:click={resetDate} type="button">Set to today</button>
+				<button class="button">Save</button>
 			</div>
 		</form>
 	</main>
@@ -62,6 +87,26 @@
 	}
 
 	.form-buttons {
+		display: flex;
+		flex-direction: column;
 		padding: 1em 0;
+	}
+	.form-buttons button {
+		margin: 0.3em 0;
+	}
+
+	@media screen and (min-width: 401px) {
+		.form-buttons {
+			flex-direction: row;
+		}
+		.form-buttons button {
+			margin: 0.3em;
+		}
+		.form-buttons button:first-child {
+			margin-left: 0;
+		}
+		.form-buttons button:last-child {
+			margin-right: 0;
+		}
 	}
 </style>

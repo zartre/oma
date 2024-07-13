@@ -14,6 +14,7 @@ export class TrackedEvent {
 		this.date = date
 
 		if (!opts?.id) this.generateID()
+		else this.id = opts.id
 	}
 
 	generateID() {

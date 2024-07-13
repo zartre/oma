@@ -1,11 +1,11 @@
 <script lang="ts">
 	import AddEventModal from '$lib/AddEventModal.svelte'
 	import CounterItem from '$lib/CounterItem.svelte'
-	import { persistentStore } from '$lib/persistence/persistence'
-	import { onMount } from 'svelte'
-	import { trackedEvents, sortedTrackedEvents, eventToEdit } from '$lib/stores/trackedEventStore'
 	import EditEventModal from '$lib/EditEventModal.svelte'
-	import type { TrackedEvent } from '$lib/models/trackedEvent'
+	import { TrackedEvent } from '$lib/models/trackedEvent'
+	import { persistentStore } from '$lib/persistence/persistence'
+	import { eventToEdit, sortedTrackedEvents, trackedEvents } from '$lib/stores/trackedEventStore'
+	import { onMount } from 'svelte'
 
 	let showAddModal = false
 	let showEditModal = false
@@ -25,7 +25,7 @@
 		toggleEditModal(false)
 	}
 	const onCounterItemClick = (ce: CustomEvent<TrackedEvent>) => {
-		$eventToEdit = ce.detail
+		$eventToEdit = new TrackedEvent(ce.detail.title, ce.detail.date, { id: ce.detail.id })
 		toggleEditModal(true)
 	}
 
