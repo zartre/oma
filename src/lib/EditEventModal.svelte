@@ -3,7 +3,7 @@
 	import { persistentStore } from '$lib/persistence/persistence'
 	import { createEventDispatcher } from 'svelte'
 	import { dateToSqlString } from './formatter'
-	import { eventToEdit, trackedEvents, deleteTrackedEvent } from './stores/trackedEventStore'
+	import { eventToEdit, deleteTrackedEvent, updateTrackedEvent } from './stores/trackedEventStore'
 
 	// Date input binding based on this example
 	// https://svelte.dev/repl/dc963bbead384b69aad17824149d6d27?version=3.25.1
@@ -25,13 +25,7 @@
 		const ev = new TrackedEvent($eventToEdit.title, $eventToEdit.date, { id: $eventToEdit.id })
 		try {
 			await persistentStore.updateEvent(ev)
-			trackedEvents.update((items) => {
-				const idx = items.findIndex((e) => e.id === ev.id)
-				if (idx !== -1) {
-					items[idx] = ev
-				}
-				return items
-			})
+			updateTrackedEvent(ev)
 			dispatchClose()
 		} catch (err) {
 			alert(`Cannot save: ${err}`)
