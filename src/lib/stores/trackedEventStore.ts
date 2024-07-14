@@ -8,3 +8,7 @@ export const sortedTrackedEvents = derived(trackedEvents, ($trackedEvents) =>
 )
 
 export const eventToEdit = writable<TrackedEvent>()
+
+export const deleteTrackedEvent = (id: string) => {
+	trackedEvents.update((events) => events.filter((event) => event.id !== id))
+}

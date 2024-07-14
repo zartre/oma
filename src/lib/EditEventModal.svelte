@@ -3,7 +3,7 @@
 	import { persistentStore } from '$lib/persistence/persistence'
 	import { createEventDispatcher } from 'svelte'
 	import { dateToSqlString } from './formatter'
-	import { eventToEdit, trackedEvents } from './stores/trackedEventStore'
+	import { eventToEdit, trackedEvents, deleteTrackedEvent } from './stores/trackedEventStore'
 
 	// Date input binding based on this example
 	// https://svelte.dev/repl/dc963bbead384b69aad17824149d6d27?version=3.25.1
@@ -40,7 +40,7 @@
 	const deleteEvent = async () => {
 		try {
 			await persistentStore.deleteEvent($eventToEdit.id)
-			trackedEvents.update((items) => items.filter((e) => e.id !== $eventToEdit.id))
+			deleteTrackedEvent($eventToEdit.id)
 			dispatchClose()
 		} catch (err) {
 			alert(`Cannot delete: ${err}`)
