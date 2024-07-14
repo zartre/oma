@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { dateToSqlString } from '$lib/formatter'
 	import { TrackedEvent } from '$lib/models/trackedEvent'
 	import { persistentStore } from '$lib/persistence/persistence'
 	import { addTrackedEvent } from '$lib/stores/trackedEventStore'
@@ -7,7 +8,7 @@
 	import { fly } from 'svelte/transition'
 
 	let eventTitle = ''
-	let eventDate = ''
+	let eventDate = dateToSqlString(new Date())
 
 	const dispatch = createEventDispatcher()
 
