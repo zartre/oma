@@ -1,6 +1,6 @@
 <script lang="ts">
+	import type { TrackedEvent } from '$lib/models/trackedEvent'
 	import { createEventDispatcher } from 'svelte'
-	import type { TrackedEvent } from './models/trackedEvent'
 
 	export let trackedEvent: TrackedEvent
 

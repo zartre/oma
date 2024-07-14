@@ -1,9 +1,13 @@
 <script lang="ts">
+	import { dateToSqlString } from '$lib/formatter'
 	import { TrackedEvent } from '$lib/models/trackedEvent'
 	import { persistentStore } from '$lib/persistence/persistence'
+	import {
+		deleteTrackedEvent,
+		eventToEdit,
+		updateTrackedEvent
+	} from '$lib/stores/trackedEventStore'
 	import { createEventDispatcher } from 'svelte'
-	import { dateToSqlString } from './formatter'
-	import { eventToEdit, deleteTrackedEvent, updateTrackedEvent } from './stores/trackedEventStore'
 
 	// Date input binding based on this example
 	// https://svelte.dev/repl/dc963bbead384b69aad17824149d6d27?version=3.25.1

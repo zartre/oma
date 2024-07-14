@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { TrackedEvent } from '$lib/models/trackedEvent'
 	import { persistentStore } from '$lib/persistence/persistence'
+	import { addTrackedEvent } from '$lib/stores/trackedEventStore'
 	import { createEventDispatcher } from 'svelte'
-	import { addTrackedEvent } from './stores/trackedEventStore'
 
 	let eventTitle = ''
 	let eventDate = ''
