@@ -35,6 +35,11 @@
 	})
 </script>
 
+<svelte:head>
+	<title>Oma - Days Since</title>
+	<meta name="description" content="Track days since important events" />
+</svelte:head>
+
 <header>
 	<h1>Days since</h1>
 </header>
