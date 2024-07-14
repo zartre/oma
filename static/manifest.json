@@ -1,0 +1,45 @@
+{
+	"id": "oma",
+	"name": "Oma - Days Since",
+	"short_name": "Oma",
+	"description": "Track days since important events",
+	"categories": ["lifestyle"],
+	"start_url": "/",
+	"display": "standalone",
+	"background_color": "#ffffff",
+	"theme_color": "#000000",
+	"icons": [
+		{
+			"src": "/icons/pwa-regular-192.png",
+			"sizes": "192x192",
+			"type": "image/png"
+		},
+		{
+			"src": "/icons/pwa-regular-384.png",
+			"sizes": "384x384",
+			"type": "image/png"
+		},
+		{
+			"src": "/icons/pwa-regular-512.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		},
+		{
+			"src": "/icons/pwa-regular-1024.png",
+			"sizes": "1024x1024",
+			"type": "image/png"
+		},
+		{
+			"src": "/icons/pwa-maskable-512.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "maskable"
+		},
+		{
+			"src": "/icons/pwa-maskable-1024.png",
+			"sizes": "1024x1024",
+			"type": "image/png",
+			"purpose": "maskable"
+		}
+	]
+}
