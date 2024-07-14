@@ -6,6 +6,7 @@
 	import { persistentStore } from '$lib/persistence/persistence'
 	import { eventToEdit, sortedTrackedEvents, trackedEvents } from '$lib/stores/trackedEventStore'
 	import { onMount } from 'svelte'
+	import { fade } from 'svelte/transition'
 
 	let showAddModal = false
 	let showEditModal = false
@@ -38,9 +39,13 @@
 	<h1>Days since</h1>
 </header>
 <main>
-	{#each $sortedTrackedEvents as ev}
-		<CounterItem trackedEvent={ev} on:click={onCounterItemClick} />
-	{/each}
+	{#if $sortedTrackedEvents.length > 0}
+		<div in:fade>
+			{#each $sortedTrackedEvents as ev}
+				<CounterItem trackedEvent={ev} on:click={onCounterItemClick} />
+			{/each}
+		</div>
+	{/if}
 	{#if showAddModal}
 		<AddEventModal on:close={onAddEventClose} />
 	{/if}
