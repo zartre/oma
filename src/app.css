@@ -70,7 +70,7 @@ a {
 /* FORM */
 
 form label {
-	display: inline-block;
+	display: block;
 	margin-bottom: 0.5em;
 }
 
@@ -80,13 +80,16 @@ input[type='text'] {
 	border: none;
 	border-radius: var(--border-radius);
 	color: var(--color-text-primary);
-	display: inline-block;
+	display: block;
 	margin: 0 0 1em;
 	padding: 1em 0.9em;
+	width: 100%;
 }
 
 input[type='date'] {
 	line-height: 0.9em;
+	text-align: left;
+	-webkit-appearance: none; /* fix for iOS */
 }
 
 /* LAYOUT */
