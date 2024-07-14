@@ -8,6 +8,8 @@
 		updateTrackedEvent
 	} from '$lib/stores/trackedEventStore'
 	import { createEventDispatcher } from 'svelte'
+	import { quintOut } from 'svelte/easing'
+	import { fly } from 'svelte/transition'
 
 	// Date input binding based on this example
 	// https://svelte.dev/repl/dc963bbead384b69aad17824149d6d27?version=3.25.1
@@ -46,7 +48,7 @@
 	}
 </script>
 
-<div class="modal">
+<div class="modal" transition:fly={{ duration: 150, easing: quintOut, y: 250 }}>
 	<header>
 		<button class="text-button" on:click={dispatchClose}>Cancel</button>
 		<h1>Edit</h1>

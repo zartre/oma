@@ -3,6 +3,8 @@
 	import { persistentStore } from '$lib/persistence/persistence'
 	import { addTrackedEvent } from '$lib/stores/trackedEventStore'
 	import { createEventDispatcher } from 'svelte'
+	import { quintOut } from 'svelte/easing'
+	import { fly } from 'svelte/transition'
 
 	let eventTitle = ''
 	let eventDate = ''
@@ -24,7 +26,7 @@
 	}
 </script>
 
-<div class="modal">
+<div class="modal" transition:fly={{ duration: 150, easing: quintOut, y: 250 }}>
 	<header>
 		<button class="text-button" on:click={dispatchClose}>Cancel</button>
 		<h1>New</h1>
