@@ -2,7 +2,7 @@
 	import { TrackedEvent } from '$lib/models/trackedEvent'
 	import { persistentStore } from '$lib/persistence/persistence'
 	import { createEventDispatcher } from 'svelte'
-	import { trackedEvents } from './stores/trackedEventStore'
+	import { addTrackedEvent } from './stores/trackedEventStore'
 
 	let eventTitle = ''
 	let eventDate = ''
@@ -16,10 +16,7 @@
 		const ev = new TrackedEvent(eventTitle, d)
 		try {
 			await persistentStore.createEvent(ev)
-			trackedEvents.update((items) => {
-				items.push(ev)
-				return items
-			})
+			addTrackedEvent(ev)
 			dispatchClose()
 		} catch (err) {
 			alert(`Cannot save: ${err}`)
