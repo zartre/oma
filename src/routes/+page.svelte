@@ -66,7 +66,7 @@
 		background-color: rgba(255, 255, 255, 0.2);
 		bottom: 0;
 		left: 0;
-		padding: 1rem;
+		padding: 1rem 1rem 30px;
 		position: fixed;
 		right: 0;
 		text-align: center;
