@@ -56,7 +56,7 @@
 	<meta name="description" content="Track days since important events" />
 	<meta property="og:title" content="Oma - Days Since" />
 	<meta property="og:url" content="https://oma.zartre.com" />
-	<meta property="og:image" content="%sveltekit.assets%/ogimage.webp" />
+	<meta property="og:image" content="./ogimage.webp" />
 </svelte:head>
 
 <header>
