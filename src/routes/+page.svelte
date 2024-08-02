@@ -43,17 +43,20 @@
 
 	onMount(() => {
 		loadEvents()
-		window.addEventListener('focus', reload)
+		if (typeof window !== 'undefined') window.addEventListener('focus', reload)
 	})
 
 	onDestroy(() => {
-		window.removeEventListener('focus', reload)
+		if (typeof window !== 'undefined') window.removeEventListener('focus', reload)
 	})
 </script>
 
 <svelte:head>
 	<title>Oma - Days Since</title>
 	<meta name="description" content="Track days since important events" />
+	<meta property="og:title" content="Oma - Days Since" />
+	<meta property="og:url" content="https://oma.zartre.com" />
+	<meta property="og:image" content="%sveltekit.assets%/ogimage.webp" />
 </svelte:head>
 
 <header>
