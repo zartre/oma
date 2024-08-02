@@ -2,14 +2,16 @@
 	import AddEventModal from '$lib/AddEventModal.svelte'
 	import CounterItem from '$lib/CounterItem.svelte'
 	import EditEventModal from '$lib/EditEventModal.svelte'
+	import { dateToSqlString } from '$lib/formatter'
 	import { TrackedEvent } from '$lib/models/trackedEvent'
 	import { persistentStore } from '$lib/persistence/persistence'
 	import { eventToEdit, sortedTrackedEvents, trackedEvents } from '$lib/stores/trackedEventStore'
-	import { onMount } from 'svelte'
+	import { onDestroy, onMount } from 'svelte'
 	import { fade } from 'svelte/transition'
 
 	let showAddModal = false
 	let showEditModal = false
+	let prevDate = dateToSqlString(new Date())
 
 	const loadEvents = () =>
 		persistentStore.getAllEvents().then((events) => {
@@ -30,8 +32,22 @@
 		toggleEditModal(true)
 	}
 
+	// Reload events when we enter a new day so that the counters update
+	const reload = () => {
+		const today = dateToSqlString(new Date())
+		if (prevDate !== today) {
+			loadEvents()
+			prevDate = today
+		}
+	}
+
 	onMount(() => {
 		loadEvents()
+		window.addEventListener('focus', reload)
+	})
+
+	onDestroy(() => {
+		window.removeEventListener('focus', reload)
 	})
 </script>
 
